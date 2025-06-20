@@ -15,6 +15,8 @@ private:
 	Coin coin;
 	Enemy enemy;
 	bool m_isInMenue{ true };
+	bool m_isInDifficulty{ false };
+	int m_difficulty{ 1 };
 public:
 	void startUp();
 	void update();

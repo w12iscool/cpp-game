@@ -19,6 +19,7 @@ public:
 	void setRandomPos();
 	void setSwitch(bool setBool);
 	void setRadius(float radius);
+	void setVelocity(float velocity);
 
 	// Movement, thinking, etc.
 	void movementHandler(Player& plr);

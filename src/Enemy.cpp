@@ -16,6 +16,11 @@ void Enemy::setRadius(float radius)
 	m_radius = radius;
 }
 
+void Enemy::setVelocity(float velocity)
+{
+	m_velocity = velocity;
+}
+
 void Enemy::movementHandler(Player& plr)
 {
 	float frameTime{ GetFrameTime() };
