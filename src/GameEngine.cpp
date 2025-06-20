@@ -34,7 +34,7 @@ void GameEngine::update()
 
 void GameEngine::render()
 {
-	if (plr.getDead() == false)
+	if (plr.getDead() == false && m_isInMenue == false)
 	{
 		// Background
 		ClearBackground(BLACK);
@@ -97,7 +97,30 @@ void GameEngine::render()
 		}
 	}
 
+	if (m_isInMenue)
+	{
+		enemy.setSwitch(false);
 
+		ClearBackground(RAYWHITE);
+		int screenWidth = 800;
+		int screenHeight = 400;
+		const char* text = "Welcome to the game! Press enter to play.";
+		int fontSize = 35;
+		int textWidth = MeasureText(text, fontSize);
+		int posX = (screenWidth - textWidth) / 2;
+		int posY = (screenHeight - fontSize) / 2 + fontSize;  // Adjust Y so baseline looks centered
+		DrawText(text, posX, posY-15, fontSize, BLACK);
+
+		if (IsKeyPressed(KEY_ENTER))
+		{
+			plr.setRandomPos();
+			enemy.setRandomPos();
+			coin.setRandomPos();
+			enemy.setSwitch(true);
+
+			m_isInMenue = false;
+		}
+	}
 }
 
 void GameEngine::shutdown()

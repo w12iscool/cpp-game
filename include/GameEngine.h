@@ -14,6 +14,7 @@ private:
 	Player plr;
 	Coin coin;
 	Enemy enemy;
+	bool m_isInMenue{ true };
 public:
 	void startUp();
 	void update();
