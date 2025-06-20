@@ -26,6 +26,9 @@ void GameEngine::update()
 
 	// Coin handling
 	coin.handlePlayerCollision(plr);
+
+	// High score checking
+	plr.handleHighScore();
 	
 }
 
@@ -50,6 +53,9 @@ void GameEngine::render()
 
 		// Draw score
 		plr.drawScore();
+
+		// Draw high score
+		plr.drawHighScore();
 	}
 	// Death message
 	if (plr.getDead())
@@ -60,6 +66,11 @@ void GameEngine::render()
 		int screenHeight = 400;
 
 		const char* text = "You died. Press enter to try again!";
+		std::string highScoreText1 = "You had a high score of: ";
+		std::string highScoreText2 = std::to_string(plr.getHighScore());
+		std::string highScoreText3 = highScoreText1 + highScoreText2;
+		const char* highScoreText4 = highScoreText3.c_str();
+
 		int fontSize = 30;
 
 		// Measure text width
@@ -72,6 +83,7 @@ void GameEngine::render()
 		ClearBackground(RAYWHITE);
 
 		DrawText(text, posX, posY, fontSize, BLACK);
+		DrawText(highScoreText4, posX, posY - 40, fontSize, BLACK);
 
 		if (IsKeyPressed(KEY_ENTER))
 		{

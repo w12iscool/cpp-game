@@ -11,6 +11,7 @@ private:
 	float m_radius{ 20 };
 	Color m_color{ WHITE };
 	int m_score{ 0 };
+	int m_highScore{ 0 };
 	float m_health{ 70 };
 	const float m_maxHealth{ 70 };
 	bool m_dead{ false };
@@ -33,6 +34,8 @@ public:
 	void drawHealthBar();
 	void checkIfDead();
 	void setRandomPos();
+	void handleHighScore();
+	void drawHighScore();
 
 	// Get member functions
 	Vector2 getPos() const;
@@ -43,4 +46,5 @@ public:
 	float getHealth() const;
 	const float getMaxHealth() const;
 	bool getDead() const;
+	int getHighScore() const;
 };

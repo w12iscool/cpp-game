@@ -117,6 +117,24 @@ void Player::setRandomPos()
 	m_pos.y = Random::get(10, SCREEN_HEIGHT - 10);
 }
 
+void Player::handleHighScore()
+{
+	if (m_score > m_highScore)
+	{
+		m_highScore = m_score;
+	}
+}
+
+void Player::drawHighScore()
+{
+	std::string sScore = std::to_string(m_highScore);
+	std::string temp1 = "HIGH SCORE: ";
+	std::string temp2 = temp1 + sScore;
+	char const* text = temp2.c_str();
+
+	DrawText(text, 10, 40, 30, YELLOW);
+}
+
 // Get member functions
 Vector2 Player::getPos() const
 {
@@ -156,5 +174,10 @@ const float Player::getMaxHealth() const
 bool Player::getDead() const
 {
 	return m_dead;
+}
+
+int Player::getHighScore() const
+{
+	return m_highScore;
 }
 
