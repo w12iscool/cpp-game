@@ -80,6 +80,7 @@ void GameEngine::render()
 			plr.setRandomPos();
 			enemy.setSwitch(true);
 			enemy.setRandomPos();
+			coin.setRandomPos();
 			plr.setDead(false);
 		}
 	}
