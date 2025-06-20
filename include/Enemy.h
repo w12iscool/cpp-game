@@ -24,6 +24,7 @@ public:
 	// Movement, thinking, etc.
 	void movementHandler(Player& plr);
 	void damagePlayer(Player& plr);
+	void addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty);
 	
 	// Get member functions
 	Vector2 getPos() const;

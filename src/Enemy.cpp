@@ -28,13 +28,13 @@ void Enemy::movementHandler(Player& plr)
 	// Follow the plr
 	if (m_switch)
 	{
-		if (m_pos.x > plr.getPos().x)
+		if (m_pos.x > plr.getPos().x && Random::get(0, 1) == 1)
 			m_pos.x -= m_velocity * frameTime;
-		if (m_pos.x < plr.getPos().x)
+		if (m_pos.x < plr.getPos().x && Random::get(0, 1) == 1)
 			m_pos.x += m_velocity * frameTime;
-		if (m_pos.y > plr.getPos().y)
+		if (m_pos.y > plr.getPos().y && Random::get(0, 1) == 1)
 			m_pos.y -= m_velocity * frameTime;
-		if (m_pos.y < plr.getPos().y)
+		if (m_pos.y < plr.getPos().y && Random::get(0, 1) == 1)
 			m_pos.y += m_velocity * frameTime;
 	}
 	
@@ -55,6 +55,35 @@ void Enemy::damagePlayer(Player& plr)
 	if (CheckCollisionCircles(plr.getPos(), plr.getRadius(), m_pos, m_radius))
 	{
 		plr.takeDamage();
+	}
+}
+
+void Enemy::addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty)
+{
+	if (plr.getScore() == plr.getPreviousScore() + 10)
+	{
+		plr.setPreviousScore();
+
+		Enemy copyEnemy;
+
+		if (difficulty == 1)
+			copyEnemy.setVelocity(EASY_ENEMY_SPEED);
+		if (difficulty == 2)
+			copyEnemy.setVelocity(NORMAL_ENEMY_SPEED);
+		if (difficulty == 3)
+			copyEnemy.setVelocity(HARD_ENEMY_SPEED);
+
+		if (enemies.size() < MAX_ENEMIES)
+		{
+			copyEnemy.setRandomPos();
+			enemies.push_back(copyEnemy);
+			std::cout << enemies.size();
+		}
+	}
+	if (plr.getDead())
+	{
+		enemies.clear();
+		plr.clearPreviousScore();
 	}
 }
 

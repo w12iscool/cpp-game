@@ -1,7 +1,9 @@
 #pragma once
 #include "raylib.h"
 #include "Constants.h"
+
 #include <string>
+#include <iostream>
 
 class Player
 {
@@ -15,6 +17,7 @@ private:
 	float m_health{ 70 };
 	const float m_maxHealth{ 70 };
 	bool m_dead{ false };
+	int m_previousScore{ 0 };
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -24,6 +27,8 @@ public:
 	void setDead(bool dead);
 	void setHealth(float health);
 	void setScore(int score);
+	void setPreviousScore();
+	void clearPreviousScore();
 
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
@@ -36,7 +41,6 @@ public:
 	void setRandomPos();
 	void handleHighScore();
 	void drawHighScore();
-
 	// Get member functions
 	Vector2 getPos() const;
 	float getVelocity() const;
@@ -47,4 +51,5 @@ public:
 	const float getMaxHealth() const;
 	bool getDead() const;
 	int getHighScore() const;
+	int getPreviousScore();
 };

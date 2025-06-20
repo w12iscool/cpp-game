@@ -2,6 +2,7 @@
 #include "Constants.h"
 #include "Random.h"
 
+
 // Set member functions
 void Player::setPos(Vector2 pos)
 {
@@ -36,6 +37,16 @@ void Player::setHealth(float health)
 void Player::setScore(int score)
 {
 	m_score = score;
+}
+
+void Player::setPreviousScore()
+{
+	m_previousScore = m_score;
+}
+
+void Player::clearPreviousScore()
+{
+	m_previousScore = 0;
 }
 
 // Important member functions
@@ -179,5 +190,10 @@ bool Player::getDead() const
 int Player::getHighScore() const
 {
 	return m_highScore;
+}
+
+int Player::getPreviousScore()
+{
+	return m_previousScore;
 }
 

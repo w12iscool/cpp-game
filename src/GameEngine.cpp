@@ -4,11 +4,12 @@
 
 #include "GameEngine.h"
 
-void GameEngine::startUp()
-{
-	plr.setPos(Vector2{200, 200});
-	enemy.setRandomPos();
-	coin.setRandomPos();
+void GameEngine::startUp()  
+{  
+   plr.setPos(Vector2{200, 200});  
+   enemy.setRandomPos();  
+   coin.setRandomPos();
+   enemies.reserve(MAX_ENEMIES);
 }
 
 void GameEngine::update()
@@ -17,6 +18,11 @@ void GameEngine::update()
 	// Handle enemy movement and collision
 	enemy.movementHandler(plr);
 	enemy.damagePlayer(plr);
+	for (auto& ene : enemies)
+	{
+		ene.movementHandler(plr);
+		ene.damagePlayer(plr);
+	}
 
 	// Handle plr movement
 	plr.handleMovement();
@@ -29,7 +35,9 @@ void GameEngine::update()
 
 	// High score checking
 	plr.handleHighScore();
-	
+
+	// Previous Score Checking
+	enemy.addEnemy(enemies, plr, m_difficulty);
 }
 
 void GameEngine::render()
@@ -44,6 +52,10 @@ void GameEngine::render()
 
 		// Draw enemy
 		DrawCircle(enemy.getPos().x, enemy.getPos().y, enemy.getRadius(), enemy.getColor());
+		for (auto& ene : enemies)
+		{
+			DrawCircle(ene.getPos().x, ene.getPos().y, ene.getRadius(), ene.getColor());
+		}
 
 		// Draw plr health bar
 		plr.drawHealthBar();
@@ -61,7 +73,7 @@ void GameEngine::render()
 	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false)
 	{
 		enemy.setSwitch(false);
-
+		plr.setScore(0);
 		int screenWidth = 800;
 		int screenHeight = 400;
 
@@ -93,6 +105,11 @@ void GameEngine::render()
 			plr.setRandomPos();
 			enemy.setSwitch(true);
 			enemy.setRandomPos();
+			for (auto& ene : enemies)
+			{
+				ene.setSwitch(true);
+				ene.setRandomPos();
+			}
 			coin.setRandomPos();
 			plr.setDead(false);
 		}
@@ -100,6 +117,10 @@ void GameEngine::render()
 		if (IsKeyPressed(KEY_BACKSPACE))
 		{
 			enemy.setSwitch(false);
+			for (auto& ene : enemies)
+			{
+				ene.setSwitch(false);
+			}
 			m_isInMenue = true;
 
 		}
@@ -108,6 +129,10 @@ void GameEngine::render()
 	if (m_isInMenue && m_isInDifficulty == false)
 	{
 		enemy.setSwitch(false);
+		for (auto& ene : enemies)
+		{
+			ene.setSwitch(false);
+		}
 
 		ClearBackground(RAYWHITE);
 		int screenWidth = 800;
@@ -128,6 +153,11 @@ void GameEngine::render()
 			enemy.setRandomPos();
 			coin.setRandomPos();
 			enemy.setSwitch(true);
+			for (auto& ene : enemies)
+			{
+				ene.setRandomPos();
+				ene.setSwitch(true);
+			}
 
 			m_isInMenue = false;
 		}
@@ -194,18 +224,34 @@ void GameEngine::render()
 		case 1:
 			plr.setVelocity(EASY_PLAYER_SPEED);
 			enemy.setVelocity(EASY_ENEMY_SPEED);
+			for (auto& ene : enemies)
+			{
+				ene.setVelocity(EASY_ENEMY_SPEED);
+			}
 			break;
 		case 2:
 			plr.setVelocity(NORMAL_PLAYER_SPEED);
 			enemy.setVelocity(NORMAL_ENEMY_SPEED);
+			for (auto& ene : enemies)
+			{
+				ene.setVelocity(NORMAL_ENEMY_SPEED);
+			}
 			break;
 		case 3:
 			plr.setVelocity(HARD_PLAYER_SPEED);
 			enemy.setVelocity(HARD_ENEMY_SPEED);
+			for (auto& ene : enemies)
+			{
+				ene.setVelocity(HARD_ENEMY_SPEED);
+			}
 			break;
 		default:
 			plr.setVelocity(NORMAL_PLAYER_SPEED);
 			enemy.setVelocity(NORMAL_ENEMY_SPEED);
+			for (auto& ene : enemies)
+			{
+				ene.setVelocity(NORMAL_ENEMY_SPEED);
+			}
 			break;
 		}
 
