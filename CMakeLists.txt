@@ -63,7 +63,7 @@ else()
 
 endif()
 
-target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES}  "src/GameEngine.cpp" "include/GameEngine.h" "src/Player.cpp" "include/Player.h" "include/Constants.h" "include/Coin.h" "src/Coin.cpp" "include/Random.h" "src/Enemy.cpp" "include/Enemy.h")
+target_sources("${CMAKE_PROJECT_NAME}" PRIVATE ${MY_SOURCES}  "src/GameEngine.cpp" "include/GameEngine.h" "src/Player.cpp" "include/Player.h" "include/Constants.h" "include/Coin.h" "src/Coin.cpp" "include/Random.h" "src/Enemy.cpp" "include/Enemy.h" "include/Healer.h" "src/Healer.cpp")
 
 
 if(MSVC) # If using the VS compiler...

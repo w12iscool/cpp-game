@@ -2,8 +2,8 @@
 
 void Enemy::setRandomPos()
 {
-	m_pos.x = Random::get(10, SCREEN_WIDTH - 10);
-	m_pos.y = Random::get(10, SCREEN_HEIGHT - 10);
+	m_pos.x = Random::get(20, SCREEN_WIDTH - m_radius);
+	m_pos.y = Random::get(20, SCREEN_HEIGHT - m_radius);
 }
 
 void Enemy::setSwitch(bool setBool)

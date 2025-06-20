@@ -49,6 +49,16 @@ void Player::clearPreviousScore()
 	m_previousScore = 0;
 }
 
+void Player::setPreviousHealerScore()
+{
+	m_previousHealerScore = m_score;
+}
+
+void Player::clearPreviousHealerScore()
+{
+	m_previousHealerScore = 0;
+}
+
 // Important member functions
 void Player::handleMovement()
 {
@@ -97,7 +107,7 @@ void Player::drawScore()
 
 void Player::heal()
 {
-	m_health += 14;
+	m_health = m_maxHealth;
 }
 
 void Player::drawHealthBar()
@@ -195,5 +205,10 @@ int Player::getHighScore() const
 int Player::getPreviousScore()
 {
 	return m_previousScore;
+}
+
+int Player::getPreviousHealerScore()
+{
+	return m_previousHealerScore;
 }
 

@@ -10,6 +10,7 @@ void GameEngine::startUp()
    enemy.setRandomPos();  
    coin.setRandomPos();
    enemies.reserve(MAX_ENEMIES);
+   healer.setRandomPos();
 }
 
 void GameEngine::update()
@@ -36,8 +37,15 @@ void GameEngine::update()
 	// High score checking
 	plr.handleHighScore();
 
-	// Previous Score Checking
+	// Previous Score Checking For More Enemies
 	enemy.addEnemy(enemies, plr, m_difficulty);
+
+	// Healer spawning and score checking
+	healer.handleSpawning(plr);
+
+	// Healer collision checking
+	healer.handleCollision(plr);
+
 }
 
 void GameEngine::render()
@@ -62,6 +70,9 @@ void GameEngine::render()
 
 		// Draw coin
 		DrawCircle(coin.getPos().x, coin.getPos().y, coin.getRadius(), coin.getColor());
+
+		// Draw healer
+		DrawCircle(healer.getPos().x, healer.getPos().y, healer.getRadius(), GREEN);
 
 		// Draw score
 		plr.drawScore();

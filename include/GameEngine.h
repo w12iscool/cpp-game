@@ -7,7 +7,8 @@
 #include "Player.h"
 #include "Coin.h"
 #include "Enemy.h"
-#include <vector>
+#include "Healer.h"
+
 
 class GameEngine
 {
@@ -16,6 +17,7 @@ private:
 	Coin coin;
 	Enemy enemy;
 	std::vector<Enemy> enemies;
+	Healer healer;
 	bool m_isInMenue{ true };
 	bool m_isInDifficulty{ false };
 	int m_difficulty{ 1 };

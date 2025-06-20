@@ -18,6 +18,7 @@ private:
 	const float m_maxHealth{ 70 };
 	bool m_dead{ false };
 	int m_previousScore{ 0 };
+	int m_previousHealerScore{ 0 };
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -29,6 +30,8 @@ public:
 	void setScore(int score);
 	void setPreviousScore();
 	void clearPreviousScore();
+	void setPreviousHealerScore();
+	void clearPreviousHealerScore();
 
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
@@ -52,4 +55,5 @@ public:
 	bool getDead() const;
 	int getHighScore() const;
 	int getPreviousScore();
+	int getPreviousHealerScore();
 };
