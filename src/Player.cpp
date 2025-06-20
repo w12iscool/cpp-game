@@ -56,6 +56,7 @@ void Player::addScore()
 void Player::takeDamage()
 {
 	m_health -= 1;
+	m_health -= 1;
 }
 
 void Player::drawScore()
