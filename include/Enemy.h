@@ -12,10 +12,13 @@ private:
 	float m_radius{ 20 };
 	float m_velocity{ 200.0f };
 	Color m_color{ RED };
+	bool m_switch{ true };
 	
 public:
 	// The one set member function lol
 	void setRandomPos();
+	void setSwitch(bool setBool);
+	void setRadius(float radius);
 
 	// Movement, thinking, etc.
 	void movementHandler(Player& plr);

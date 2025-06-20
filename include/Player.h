@@ -13,12 +13,16 @@ private:
 	int m_score{ 0 };
 	float m_health{ 70 };
 	const float m_maxHealth{ 70 };
+	bool m_dead{ false };
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
 	void setVelocity(float velocity);
 	void setRadius(float radius);
 	void setColor(Color color);
+	void setDead(bool dead);
+	void setHealth(float health);
+	void setScore(int score);
 
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
@@ -27,6 +31,8 @@ public:
 	void drawScore();
 	void heal();
 	void drawHealthBar();
+	void checkIfDead();
+	void setRandomPos();
 
 	// Get member functions
 	Vector2 getPos() const;
@@ -36,4 +42,5 @@ public:
 	int getScore() const;
 	float getHealth() const;
 	const float getMaxHealth() const;
+	bool getDead() const;
 };

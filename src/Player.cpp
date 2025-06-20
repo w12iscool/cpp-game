@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Constants.h"
+#include "Random.h"
 
 // Set member functions
 void Player::setPos(Vector2 pos)
@@ -20,6 +21,21 @@ void Player::setRadius(float radius)
 void Player::setColor(Color color)
 {
 	m_color = color;
+}
+
+void Player::setDead(bool dead)
+{
+	m_dead = dead;
+}
+
+void Player::setHealth(float health)
+{
+	m_health = health;
+}
+
+void Player::setScore(int score)
+{
+	m_score = score;
 }
 
 // Important member functions
@@ -75,13 +91,30 @@ void Player::heal()
 
 void Player::drawHealthBar()
 {
-	
-	Rectangle healthBar{ Rectangle{10.0f, 370.0f, (m_health / m_maxHealth) * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT} };
-	Rectangle backgroundBar{ Rectangle{10.0f, 370.0f, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT} };
-	DrawRectangle(backgroundBar.x, backgroundBar.y, backgroundBar.width, backgroundBar.height, DARKGRAY);
-	DrawRectangle(healthBar.x, healthBar.y, healthBar.width, healthBar.height, GREEN);
+	if (m_dead == false)
+	{
+		Rectangle healthBar{ Rectangle{10.0f, 370.0f, (m_health / m_maxHealth) * HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT} };
+		Rectangle backgroundBar{ Rectangle{10.0f, 370.0f, HEALTHBAR_WIDTH, HEALTHBAR_HEIGHT} };
+		DrawRectangle(backgroundBar.x, backgroundBar.y, backgroundBar.width, backgroundBar.height, DARKGRAY);
+		DrawRectangle(healthBar.x, healthBar.y, healthBar.width, healthBar.height, GREEN);
 
-	DrawText("Health", 10, 350, 20, GREEN);
+		DrawText("Health", 10, 350, 20, GREEN);
+	}
+	
+}
+
+void Player::checkIfDead()
+{
+	if (m_health <= 0)
+	{
+		m_dead = true;
+	}
+}
+
+void Player::setRandomPos()
+{
+	m_pos.x = Random::get(10, SCREEN_WIDTH - 10);
+	m_pos.y = Random::get(10, SCREEN_HEIGHT - 10);
 }
 
 // Get member functions
@@ -118,5 +151,10 @@ float Player::getHealth() const
 const float Player::getMaxHealth() const
 {
 	return m_maxHealth;
+}
+
+bool Player::getDead() const
+{
+	return m_dead;
 }
 

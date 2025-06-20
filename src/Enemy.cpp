@@ -6,19 +6,33 @@ void Enemy::setRandomPos()
 	m_pos.y = Random::get(10, SCREEN_HEIGHT - 10);
 }
 
+void Enemy::setSwitch(bool setBool)
+{
+	m_switch = setBool;
+}
+
+void Enemy::setRadius(float radius)
+{
+	m_radius = radius;
+}
+
 void Enemy::movementHandler(Player& plr)
 {
 	float frameTime{ GetFrameTime() };
 
 	// Follow the plr
-	if (m_pos.x > plr.getPos().x)
-		m_pos.x -= m_velocity * frameTime;
-	if (m_pos.x < plr.getPos().x)
-		m_pos.x += m_velocity * frameTime;
-	if (m_pos.y > plr.getPos().y)
-		m_pos.y -= m_velocity * frameTime;
-	if (m_pos.y < plr.getPos().y)
-		m_pos.y += m_velocity * frameTime;
+	if (m_switch)
+	{
+		if (m_pos.x > plr.getPos().x)
+			m_pos.x -= m_velocity * frameTime;
+		if (m_pos.x < plr.getPos().x)
+			m_pos.x += m_velocity * frameTime;
+		if (m_pos.y > plr.getPos().y)
+			m_pos.y -= m_velocity * frameTime;
+		if (m_pos.y < plr.getPos().y)
+			m_pos.y += m_velocity * frameTime;
+	}
+	
 	
 	// In case the enemy somehow goes out of bounds.
 	if (m_pos.x < 0)
