@@ -31,6 +31,7 @@ void Healer::handleSpawning(Player& plr)
 	if (plr.getDead())
 	{
 		m_canHeal = false;
+		m_radius = 0;
 		plr.clearPreviousHealerScore();
 	}
 }
