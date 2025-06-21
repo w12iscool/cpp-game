@@ -14,6 +14,15 @@ void GameEngine::startUp()
    plr.createSaveFolder();
    plr.getFileHighScore();
    plr.readFromSaveFile();
+
+   // unfortunately hard-coded to set the default difficulty to normal upon startup cuz im lazy :(
+   m_difficulty = 2;
+   plr.setVelocity(NORMAL_PLAYER_SPEED);
+   enemy.setVelocity(NORMAL_ENEMY_SPEED);
+   for (auto& ene : enemies)
+   {
+	   ene.setVelocity(NORMAL_ENEMY_SPEED);
+   }
 }
 
 void GameEngine::update()
@@ -280,5 +289,5 @@ void GameEngine::render()
 
 void GameEngine::shutdown()
 {
-	std::cout << "Hello world";
+	plr.saveHighScore();
 }
