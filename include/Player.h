@@ -4,6 +4,10 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
+#include <filesystem>
+#include <string_view>
+#include <istream>
 
 class Player
 {
@@ -19,6 +23,7 @@ private:
 	bool m_dead{ false };
 	int m_previousScore{ 0 };
 	int m_previousHealerScore{ 0 };
+	int m_fileHighScore;
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -32,6 +37,8 @@ public:
 	void clearPreviousScore();
 	void setPreviousHealerScore();
 	void clearPreviousHealerScore();
+	void createSaveFolder();
+	void saveHighScore();
 
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
@@ -44,6 +51,7 @@ public:
 	void setRandomPos();
 	void handleHighScore();
 	void drawHighScore();
+	void readFromSaveFile();
 	// Get member functions
 	Vector2 getPos() const;
 	float getVelocity() const;
@@ -56,4 +64,5 @@ public:
 	int getHighScore() const;
 	int getPreviousScore();
 	int getPreviousHealerScore();
+	int getFileHighScore();
 };

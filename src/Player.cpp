@@ -59,6 +59,48 @@ void Player::clearPreviousHealerScore()
 	m_previousHealerScore = 0;
 }
 
+void Player::createSaveFolder()
+{
+	std::string folder = "./saves/";
+	std::filesystem::create_directory(folder);
+	std::string savePath = folder + "save.txt";
+
+	if (!std::filesystem::exists(savePath))
+	{
+		std::cout << savePath;
+		std::ofstream out(savePath);
+
+		if (!out)
+			std::cout << "An error occured with saving";
+
+		out << m_highScore;
+		out.close();
+	}
+	
+}
+
+void Player::saveHighScore()  
+{  
+	std::string folder = "./saves/";
+	std::string savePath = folder + "save.txt";
+
+	std::ifstream saveFile(savePath);
+	std::string line;
+
+	if (std::getline(saveFile, line))
+	{
+		m_fileHighScore = std::stoi(line);
+	}
+
+	if (m_fileHighScore < m_highScore)
+	{
+		m_fileHighScore = m_highScore;
+		std::ofstream outSafeFile(savePath);
+		outSafeFile << m_fileHighScore;
+	}
+}
+
+
 // Important member functions
 void Player::handleMovement()
 {
@@ -156,6 +198,11 @@ void Player::drawHighScore()
 	DrawText(text, 10, 40, 30, YELLOW);
 }
 
+void Player::readFromSaveFile()
+{
+	m_highScore = m_fileHighScore;
+}
+
 // Get member functions
 Vector2 Player::getPos() const
 {
@@ -210,5 +257,21 @@ int Player::getPreviousScore()
 int Player::getPreviousHealerScore()
 {
 	return m_previousHealerScore;
+}
+
+int Player::getFileHighScore()
+{
+	std::string folder = "./saves/";
+	std::string savePath = folder + "save.txt";
+
+	std::ifstream saveFile(savePath);
+	std::string line;
+
+	if (std::getline(saveFile, line))
+	{
+		m_fileHighScore = std::stoi(line);
+	}
+
+	return m_fileHighScore;
 }
 

@@ -11,6 +11,9 @@ void GameEngine::startUp()
    coin.setRandomPos();
    enemies.reserve(MAX_ENEMIES);
    healer.setRandomPos();
+   plr.createSaveFolder();
+   plr.getFileHighScore();
+   plr.readFromSaveFile();
 }
 
 void GameEngine::update()
@@ -83,6 +86,7 @@ void GameEngine::render()
 	// Death message
 	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false)
 	{
+		plr.saveHighScore();
 		enemy.setSwitch(false);
 		plr.setScore(0);
 		int screenWidth = 800;
