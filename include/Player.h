@@ -24,6 +24,10 @@ private:
 	int m_previousScore{ 0 };
 	int m_previousHealerScore{ 0 };
 	int m_fileHighScore;
+	int m_highScoreEasy{ 0 };
+	int m_highScoreHard{ 0 };
+	int m_fileHighScoreEasy;
+	int m_fileHighScoreHard;
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -38,7 +42,7 @@ public:
 	void setPreviousHealerScore();
 	void clearPreviousHealerScore();
 	void createSaveFolder();
-	void saveHighScore();
+	void saveHighScore(int difficulty);
 
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
@@ -49,9 +53,11 @@ public:
 	void drawHealthBar();
 	void checkIfDead();
 	void setRandomPos();
-	void handleHighScore();
-	void drawHighScore();
+	void handleHighScore(int difficulty);
+	void drawHighScore(int difficulty);
 	void readFromSaveFile();
+	void readFromSaveFile1();
+	void readFromSaveFile3();
 	// Get member functions
 	Vector2 getPos() const;
 	float getVelocity() const;
@@ -65,4 +71,8 @@ public:
 	int getPreviousScore();
 	int getPreviousHealerScore();
 	int getFileHighScore();
+	int getFileHighScoreEasy();
+	int getFileHighScoreHard();
+	int getHighScoreEasy() const;
+	int getHighScoreHard() const;
 };

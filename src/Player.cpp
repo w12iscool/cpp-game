@@ -64,6 +64,8 @@ void Player::createSaveFolder()
 	std::string folder = "./saves/";
 	std::filesystem::create_directory(folder);
 	std::string savePath = folder + "save.txt";
+	std::string savePathEasy = folder + "save1.txt";
+	std::string savePathHard = folder + "save3.txt";
 
 	if (!std::filesystem::exists(savePath))
 	{
@@ -76,27 +78,98 @@ void Player::createSaveFolder()
 		out << m_highScore;
 		out.close();
 	}
+
+	if (!std::filesystem::exists(savePathEasy))
+	{
+		std::cout << savePathEasy;
+		std::ofstream out(savePathEasy);
+
+		if (!out)
+		{
+			std::cout << "An error occured with saving";
+		}
+
+		out << m_highScoreEasy;
+		out.close();
+	}
+
+	if (!std::filesystem::exists(savePathHard))
+	{
+		std::cout << savePathHard;
+		std::ofstream out(savePathHard);
+
+		if (!out)
+		{
+			std::cout << "An error occured with saving";
+		}
+
+		out << m_highScoreHard;
+		out.close();
+	}
 	
 }
 
-void Player::saveHighScore()  
-{  
-	std::string folder = "./saves/";
-	std::string savePath = folder + "save.txt";
-
-	std::ifstream saveFile(savePath);
-	std::string line;
-
-	if (std::getline(saveFile, line))
+void Player::saveHighScore(int difficulty)  
+{
+	if (difficulty == 2)
 	{
-		m_fileHighScore = std::stoi(line);
+		std::string folder = "./saves/";
+		std::string savePath = folder + "save.txt";
+
+		std::ifstream saveFile(savePath);
+		std::string line;
+
+		if (std::getline(saveFile, line))
+		{
+			m_fileHighScore = std::stoi(line);
+		}
+
+		if (m_fileHighScore < m_highScore)
+		{
+			m_fileHighScore = m_highScore;
+			std::ofstream outSafeFile(savePath);
+			outSafeFile << m_fileHighScore;
+		}
 	}
-
-	if (m_fileHighScore < m_highScore)
+	else if (difficulty == 1)
 	{
-		m_fileHighScore = m_highScore;
-		std::ofstream outSafeFile(savePath);
-		outSafeFile << m_fileHighScore;
+		std::string folder = "./saves/";
+		std::string savePath = folder + "save1.txt";
+		
+		std::ifstream saveFile(savePath);
+		std::string line;
+
+		if (std::getline(saveFile, line))
+		{
+			m_fileHighScoreEasy = std::stoi(line);
+		}
+
+		if (m_fileHighScoreEasy < m_highScoreEasy)
+		{
+			m_fileHighScoreEasy = m_highScoreEasy;
+			std::ofstream outSafeFile(savePath);
+			outSafeFile << m_fileHighScoreEasy;
+		}
+	}
+	else if (difficulty == 3)
+	{
+		std::string folder = "./saves/";
+		std::string savePath = folder + "save3.txt";
+
+		std::ifstream saveFile(savePath);
+		std::string line;
+
+		if (std::getline(saveFile, line))
+		{
+			m_fileHighScoreHard = std::stoi(line);
+		}
+
+		if (m_fileHighScoreHard < m_highScoreHard)
+		{
+			m_fileHighScoreHard = m_highScoreHard;
+			std::ofstream outSafeFile(savePath);
+			outSafeFile << m_fileHighScoreHard;
+		}
 	}
 }
 
@@ -180,17 +253,52 @@ void Player::setRandomPos()
 	m_pos.y = Random::get(10, SCREEN_HEIGHT - 10);
 }
 
-void Player::handleHighScore()
+void Player::handleHighScore(int difficulty)
 {
-	if (m_score > m_highScore)
+	if (difficulty == 2)
 	{
-		m_highScore = m_score;
+		if (m_score > m_highScore)
+		{
+			m_highScore = m_score;
+		}
 	}
+	
+	if (difficulty == 1)
+	{
+		if (m_score > m_highScoreEasy)
+		{
+			m_highScoreEasy = m_score;
+		}
+	}
+
+	if (difficulty == 3)
+	{
+		if (m_score > m_highScoreHard)
+		{
+			m_highScoreHard = m_score;
+		}
+	}
+
 }
 
-void Player::drawHighScore()
+void Player::drawHighScore(int difficulty)
 {
-	std::string sScore = std::to_string(m_highScore);
+	std::string sScore;
+	switch (difficulty)
+	{
+	case 1:
+		sScore = std::to_string(m_highScoreEasy);
+		break;
+	case 2:
+		sScore = std::to_string(m_highScore);
+		break;
+	case 3:
+		sScore = std::to_string(m_highScoreHard);
+		break;
+	default:
+		sScore = std::to_string(m_highScore);
+		break;
+	}
 	std::string temp1 = "HIGH SCORE: ";
 	std::string temp2 = temp1 + sScore;
 	char const* text = temp2.c_str();
@@ -201,6 +309,16 @@ void Player::drawHighScore()
 void Player::readFromSaveFile()
 {
 	m_highScore = m_fileHighScore;
+}
+
+void Player::readFromSaveFile1()
+{
+	m_highScoreEasy = m_fileHighScoreEasy;
+}
+
+void Player::readFromSaveFile3()
+{
+	m_highScoreHard = m_fileHighScoreHard;
 }
 
 // Get member functions
@@ -273,5 +391,45 @@ int Player::getFileHighScore()
 	}
 
 	return m_fileHighScore;
+}
+
+int Player::getFileHighScoreEasy()
+{
+	std::string folder = "./saves/";
+	std::string savePath = folder + "save1.txt";
+
+	std::ifstream saveFile(savePath);
+	std::string line;
+
+	if (std::getline(saveFile, line))
+	{
+		m_fileHighScoreEasy = std::stoi(line);
+	}
+	return m_fileHighScoreEasy;
+}
+
+int Player::getFileHighScoreHard()
+{
+	std::string folder = "./saves/";
+	std::string savePath = folder + "save3.txt";
+
+	std::ifstream saveFile(savePath);
+	std::string line;
+
+	if (std::getline(saveFile, line))
+	{
+		m_fileHighScoreHard = std::stoi(line);
+	}
+	return m_fileHighScoreHard;
+}
+
+int Player::getHighScoreEasy() const
+{
+	return m_highScoreEasy;
+}
+
+int Player::getHighScoreHard() const
+{
+	return m_highScoreHard;
 }
 

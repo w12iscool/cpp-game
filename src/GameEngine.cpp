@@ -6,6 +6,7 @@
 
 void GameEngine::startUp()  
 {  
+	m_difficulty = 2;
    plr.setPos(Vector2{200, 200});  
    enemy.setRandomPos();  
    coin.setRandomPos();
@@ -13,10 +14,13 @@ void GameEngine::startUp()
    healer.setRandomPos();
    plr.createSaveFolder();
    plr.getFileHighScore();
+   plr.getFileHighScoreEasy();
+   plr.getFileHighScoreHard();
    plr.readFromSaveFile();
+   plr.readFromSaveFile1();
+   plr.readFromSaveFile3();
 
    // unfortunately hard-coded to set the default difficulty to normal upon startup cuz im lazy :(
-   m_difficulty = 2;
    plr.setVelocity(NORMAL_PLAYER_SPEED);
    enemy.setVelocity(NORMAL_ENEMY_SPEED);
    for (auto& ene : enemies)
@@ -47,7 +51,7 @@ void GameEngine::update()
 	coin.handlePlayerCollision(plr);
 
 	// High score checking
-	plr.handleHighScore();
+	plr.handleHighScore(m_difficulty);
 
 	// Previous Score Checking For More Enemies
 	enemy.addEnemy(enemies, plr, m_difficulty);
@@ -90,12 +94,12 @@ void GameEngine::render()
 		plr.drawScore();
 
 		// Draw high score
-		plr.drawHighScore();
+		plr.drawHighScore(m_difficulty);
 	}
 	// Death message
 	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false)
 	{
-		plr.saveHighScore();
+		plr.saveHighScore(m_difficulty);
 		enemy.setSwitch(false);
 		plr.setScore(0);
 		int screenWidth = 800;
@@ -103,7 +107,24 @@ void GameEngine::render()
 
 		const char* text = "You died. Press enter to try again!";
 		std::string highScoreText1 = "You had a high score of: ";
-		std::string highScoreText2 = std::to_string(plr.getHighScore());
+		std::string highScoreText2;
+
+		switch (m_difficulty)
+		{
+		case 1:
+			highScoreText2 = std::to_string(plr.getHighScoreEasy());
+			break;
+		case 2:
+			highScoreText2 = std::to_string(plr.getHighScore());
+			break;
+		case 3:
+			highScoreText2 = std::to_string(plr.getHighScoreHard());
+			break;
+		default:
+			highScoreText2 = std::to_string(plr.getHighScore());
+			break;
+		}
+
 		std::string highScoreText3 = highScoreText1 + highScoreText2;
 		const char* highScoreText4 = highScoreText3.c_str();
 
@@ -289,5 +310,5 @@ void GameEngine::render()
 
 void GameEngine::shutdown()
 {
-	plr.saveHighScore();
+	plr.saveHighScore(m_difficulty);
 }
