@@ -4,5 +4,5 @@ A fun project I made with C++ and Raylib.
 
 # To do:
 
-- Powerups
+- Powerups (Added speed and healing)
 - Actual graphics
