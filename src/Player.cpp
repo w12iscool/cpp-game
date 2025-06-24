@@ -59,6 +59,16 @@ void Player::clearPreviousHealerScore()
 	m_previousHealerScore = 0;
 }
 
+void Player::setPreviousSpeederScore()
+{
+	m_previousSpeederScore = m_score;
+}
+
+void Player::clearPreviousSpeederScore()
+{
+	m_previousSpeederScore = 0;
+}
+
 void Player::createSaveFolder()
 {
 	std::string folder = "./saves/";
@@ -173,6 +183,15 @@ void Player::saveHighScore(int difficulty)
 	}
 }
 
+void Player::speedPlayer()
+{
+	m_velocity = m_velocity + 250;
+}
+
+void Player::unspeedPlayer()
+{
+	m_velocity = m_velocity - 250;
+}
 
 // Important member functions
 void Player::handleMovement()
@@ -431,5 +450,38 @@ int Player::getHighScoreEasy() const
 int Player::getHighScoreHard() const
 {
 	return m_highScoreHard;
+}
+
+int Player::getPreviousSpeederScore()
+{
+	return m_previousSpeederScore;
+}
+
+float Player::getSpeededVelocity(int difficulty)
+{
+	switch (difficulty)
+	{
+	case 1:
+		return 600;
+	case 2:
+		return 800;
+	case 3:
+		return 1000;
+	default:
+		return 800;
+	}
+}
+
+float Player::getUnspeededVelocity(int difficulty)
+{
+	switch (difficulty)
+	{
+	case 1:
+		return EASY_PLAYER_SPEED;
+	case 2:
+		return NORMAL_PLAYER_SPEED;
+	case 3:
+		return HARD_PLAYER_SPEED;
+	}
 }
 

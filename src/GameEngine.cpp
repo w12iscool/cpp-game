@@ -4,6 +4,38 @@
 
 #include "GameEngine.h"
 
+namespace Timer
+{
+	typedef struct
+	{
+		float Lifetime;
+	}Timer;
+
+	// start or restart a timer with a specific lifetime
+	void StartTimer(Timer* timer, float lifetime)
+	{
+		if (timer != NULL)
+			timer->Lifetime = lifetime;
+	}
+
+	// update a timer with the current frame time
+	void UpdateTimer(Timer* timer)
+	{
+		// subtract this frame from the timer if it's not allready expired
+		if (timer != NULL && timer->Lifetime > 0)
+			timer->Lifetime -= GetFrameTime();
+	}
+
+	// check if a timer is done.
+	bool TimerDone(Timer* timer)
+	{
+		if (timer != NULL)
+			return timer->Lifetime <= 0;
+
+		return false;
+	}
+}
+
 void GameEngine::startUp()  
 {  
 	m_difficulty = 2;
@@ -12,6 +44,7 @@ void GameEngine::startUp()
    coin.setRandomPos();
    enemies.reserve(MAX_ENEMIES);
    healer.setRandomPos();
+   speeder.setRandomPos();
    plr.createSaveFolder();
    plr.getFileHighScore();
    plr.getFileHighScoreEasy();
@@ -28,6 +61,12 @@ void GameEngine::startUp()
 	   ene.setVelocity(NORMAL_ENEMY_SPEED);
    }
 }
+
+float speedLife = 10.0f;
+
+Timer::Timer speedTimer = { 0 };
+
+bool speedActivated{ false };
 
 void GameEngine::update()
 {
@@ -62,6 +101,28 @@ void GameEngine::update()
 	// Healer collision checking
 	healer.handleCollision(plr);
 
+	// Speeder spawning and score checking
+	speeder.handleSpawning(plr);
+
+	// Speeder collision checking
+
+	if (speeder.handleCollision(plr) && !speedActivated)
+	{
+		Timer::StartTimer(&speedTimer, speedLife);
+		plr.setVelocity(plr.getSpeededVelocity(m_difficulty));
+		speedActivated = true;
+	}
+
+	if (speedActivated)
+	{
+		Timer::UpdateTimer(&speedTimer);
+
+		if (Timer::TimerDone(&speedTimer))
+		{
+			plr.setVelocity(plr.getUnspeededVelocity(m_difficulty));
+			speedActivated = false;
+		}
+	}
 }
 
 void GameEngine::render()
@@ -90,11 +151,19 @@ void GameEngine::render()
 		// Draw healer
 		DrawCircle(healer.getPos().x, healer.getPos().y, healer.getRadius(), GREEN);
 
+		// Draw Speeder
+		DrawCircle(speeder.getPos().x, speeder.getPos().y, speeder.getRadius(), BLUE);
+
 		// Draw score
 		plr.drawScore();
 
 		// Draw high score
 		plr.drawHighScore(m_difficulty);
+
+		if (speedActivated)
+		{
+			speeder.drawIfSpeeded();
+		}
 	}
 	// Death message
 	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false)

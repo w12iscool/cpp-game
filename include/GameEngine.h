@@ -8,7 +8,7 @@
 #include "Coin.h"
 #include "Enemy.h"
 #include "Healer.h"
-
+#include "Speeder.h"
 
 class GameEngine
 {
@@ -18,6 +18,7 @@ private:
 	Enemy enemy;
 	std::vector<Enemy> enemies;
 	Healer healer;
+	Speeder speeder;
 	bool m_isInMenue{ true };
 	bool m_isInDifficulty{ false };
 	int m_difficulty{ 1 };
