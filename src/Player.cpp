@@ -236,7 +236,7 @@ void Player::drawScore()
 	std::string temp2 = temp1 + sScore;
 	char const* text = temp2.c_str();
 
-	DrawText(text, 10, 10, 30, YELLOW);
+	DrawText(text, 10, 10, 20, YELLOW);
 }
 
 void Player::heal()
@@ -322,7 +322,7 @@ void Player::drawHighScore(int difficulty)
 	std::string temp2 = temp1 + sScore;
 	char const* text = temp2.c_str();
 
-	DrawText(text, 10, 40, 30, YELLOW);
+	DrawText(text, 10, 40, 20, YELLOW);
 }
 
 void Player::readFromSaveFile()
