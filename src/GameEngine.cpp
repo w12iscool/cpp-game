@@ -251,13 +251,15 @@ void GameEngine::render()
 		ClearBackground(RAYWHITE);
 		int screenWidth = 800;
 		int screenHeight = 400;
-		const char* text = "Welcome to the game! Press enter to play!";
+		const char* text = "Press enter to play!";
 		int fontSize = 35;
 		int textWidth = MeasureText(text, fontSize);
 		int posX = (screenWidth - textWidth) / 2;
 		int posY = (screenHeight - fontSize) / 2 + fontSize;  // Adjust Y so baseline looks centered
-		DrawText(text, posX, posY-15, fontSize, BLACK);
-		DrawText("Press M to switch difficulties!", posX, posY + 25, 35, BLACK);
+		DrawText(text, posX, posY, fontSize, BLACK);
+		DrawText("Press M to switch difficulties!", (screenWidth - MeasureText("Press M to switch difficulties!", 20)) / 2, posY + 35, 20, BLACK);
+
+		DrawText("Goal Busters", (screenWidth - MeasureText("Goal Busters", 60)) / 2, posY - 70, 60, BLUE);
 
 		if (IsKeyPressed(KEY_ENTER))
 		{
@@ -289,14 +291,15 @@ void GameEngine::render()
 		
 		int screenWidth = 800;
 		int screenHeight = 400;
-		const char* text = "Welcome to the difficulty select menu! Press backspace to go back.";
+		const char* text = "Welcome to the difficulty select menu!";
 		int fontSize = 20;
 		int textWidth = MeasureText(text, fontSize);
 		int posX = (screenWidth - textWidth) / 2;
 		int posY = (screenHeight - fontSize) / 2 + fontSize;
 		DrawText(text, posX, posY - 170, fontSize, BLACK);
-		DrawText("Press: '1' for easy, '2' for normal, '3' for hard", posX, posY - 140, 20, BLACK);
-
+		DrawText("1 - Easy", (screenWidth - MeasureText("1 - Easy", 30)) / 2, posY - 130, 30, GREEN);
+		DrawText("2 - Normal", (screenWidth - MeasureText("2 - Normal", 30)) / 2, posY - 90, 30, BLACK);
+		DrawText("3 - Hard", (screenWidth - MeasureText("3 - Hard", 30)) / 2, posY - 50, 30, RED);
 		std::string sDifficulty;
 		Color diffColor;
 		switch (m_difficulty)
@@ -307,7 +310,7 @@ void GameEngine::render()
 			break;
 		case 2:
 			sDifficulty = "Normal";
-			diffColor = YELLOW;
+			diffColor = BLACK;
 			break;
 		case 3:
 			sDifficulty = "Hard";
@@ -325,7 +328,7 @@ void GameEngine::render()
 		int posX1 = (screenWidth - textWidth1) / 2;
 		int posY1 = (screenHeight - fontSize1) / 2 + fontSize1;
 		DrawText(text1, posX1, posY1, fontSize1, diffColor);
-
+		DrawText("Press backspace to go back", (screenWidth - MeasureText("Press backspace to go back", 30)) / 2, posY1 + 70, 30, BLACK);
 		if (IsKeyPressed(KEY_ONE))
 			m_difficulty = 1;
 		if (IsKeyPressed(KEY_TWO))
