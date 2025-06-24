@@ -23,7 +23,7 @@ bool Speeder::handleCollision(Player& plr)
 
 void Speeder::handleSpawning(Player& plr)
 {
-	if (plr.getScore() == plr.getPreviousSpeederScore() + 1)
+	if (plr.getScore() == plr.getPreviousSpeederScore() + 45)
 	{
 		m_canSpeed = true;
 		plr.setPreviousSpeederScore();
