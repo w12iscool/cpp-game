@@ -9,7 +9,6 @@
 #include <string_view>
 #include <istream>
 
-
 class Player
 {
 private:
@@ -30,6 +29,7 @@ private:
 	int m_fileHighScoreEasy;
 	int m_fileHighScoreHard;
 	int m_previousSpeederScore{ 0 };
+	int m_previousOneHundredScore{ 0 };
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -45,6 +45,8 @@ public:
 	void clearPreviousHealerScore();
 	void setPreviousSpeederScore();
 	void clearPreviousSpeederScore();
+	void setPreviousHundredScore();
+	void clearPreviousHundredScore();
 	void createSaveFolder();
 	void saveHighScore(int difficulty);
 	void speedPlayer();
@@ -53,7 +55,7 @@ public:
 	// Other important stuff i.e movement, score handling, etc.
 	void handleMovement();
 	void addScore();
-	void takeDamage();
+	void takeDamage(int dmg);
 	void drawScore();
 	void heal();
 	void drawHealthBar();
@@ -84,4 +86,5 @@ public:
 	int getPreviousSpeederScore();
 	float getSpeededVelocity(int difficulty);
 	float getUnspeededVelocity(int difficulty);
+	int getPreviousHundredScore();
 };

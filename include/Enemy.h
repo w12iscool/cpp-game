@@ -5,6 +5,8 @@
 #include "Constants.h"
 #include "Player.h"
 
+#include <string>
+
 class Enemy
 {
 private:
@@ -13,6 +15,8 @@ private:
 	float m_velocity{ 200.0f };
 	Color m_color{ RED };
 	bool m_switch{ true };
+	int m_dmg{ 1 };
+	bool m_canDrawDmgMultiplier{ false };
 	
 public:
 	// The one set member function lol
@@ -25,6 +29,8 @@ public:
 	void movementHandler(Player& plr);
 	void damagePlayer(Player& plr);
 	void addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty);
+	void handleScoreHundred(Player& plr);
+	void drawDmgMultiplier();
 	
 	// Get member functions
 	Vector2 getPos() const;

@@ -123,6 +123,9 @@ void GameEngine::update()
 			speedActivated = false;
 		}
 	}
+
+	// Increases damage by 1 each time the plr earns 100 coins
+	enemy.handleScoreHundred(plr);
 }
 
 void GameEngine::render()
@@ -156,6 +159,9 @@ void GameEngine::render()
 
 		// Draw score
 		plr.drawScore();
+
+		// Draw dmg multiplier
+		enemy.drawDmgMultiplier();
 
 		// Draw high score
 		plr.drawHighScore(m_difficulty);

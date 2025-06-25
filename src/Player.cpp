@@ -69,6 +69,16 @@ void Player::clearPreviousSpeederScore()
 	m_previousSpeederScore = 0;
 }
 
+void Player::setPreviousHundredScore()
+{
+	m_previousOneHundredScore = m_score;
+}
+
+void Player::clearPreviousHundredScore()
+{
+	m_previousOneHundredScore = 0;
+}
+
 void Player::createSaveFolder()
 {
 	std::string folder = "./saves/";
@@ -224,9 +234,9 @@ void Player::addScore()
 	m_score += 1;
 }
 
-void Player::takeDamage()
+void Player::takeDamage(int dmg)
 {
-	m_health -= 1;
+	m_health -= dmg;
 }
 
 void Player::drawScore()
@@ -483,5 +493,10 @@ float Player::getUnspeededVelocity(int difficulty)
 	case 3:
 		return HARD_PLAYER_SPEED;
 	}
+}
+
+int Player::getPreviousHundredScore()
+{
+	return m_previousOneHundredScore;
 }
 

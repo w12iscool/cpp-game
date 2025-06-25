@@ -54,7 +54,7 @@ void Enemy::damagePlayer(Player& plr)
 {
 	if (CheckCollisionCircles(plr.getPos(), plr.getRadius(), m_pos, m_radius))
 	{
-		plr.takeDamage();
+		plr.takeDamage(m_dmg);
 	}
 }
 
@@ -86,6 +86,42 @@ void Enemy::addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty)
 		plr.clearPreviousScore();
 	}
 }
+
+
+
+void Enemy::handleScoreHundred(Player& plr)
+{
+	if (plr.getScore() == plr.getPreviousHundredScore() + 100)
+	{
+		m_dmg += 1;
+		m_canDrawDmgMultiplier = true;
+		plr.setPreviousHundredScore();
+	}
+
+	if (plr.getDead())
+	{
+		m_dmg = 1;
+		plr.clearPreviousHundredScore();
+		m_canDrawDmgMultiplier = false;
+	}
+}
+
+void Enemy::drawDmgMultiplier()
+{
+	if (m_canDrawDmgMultiplier)
+	{
+		std::string sMultiplier{ std::to_string(m_dmg) };
+		std::string temp1 = "DAMAGE: ";
+		std::string temp2 = "X";
+		std::string temp3 = temp1 + sMultiplier + temp2;
+		const char* text = temp3.c_str();
+		int centeredX = ((SCREEN_WIDTH - MeasureText(text, 30)) / 2);
+
+		DrawText(text, centeredX, 20, 30, RED);
+	}
+}
+
+
 
 Vector2 Enemy::getPos() const
 {
