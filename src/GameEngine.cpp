@@ -73,16 +73,18 @@ float freezeLife = 5.0f;
 Timer::Timer freezeTimer = { 0 };
 bool freezeActivated{ false };
 
+// Pause variable
+bool isPaused = true;
 void GameEngine::update()
 {
 
 	// Handle enemy movement and collision
 	enemy.movementHandler(plr);
-	enemy.damagePlayer(plr);
+	enemy.damagePlayer(plr, m_canDamage);
 	for (auto& ene : enemies)
 	{
 		ene.movementHandler(plr);
-		ene.damagePlayer(plr);
+		ene.damagePlayer(plr, m_canDamage);
 	}
 
 	// Handle plr movement
@@ -164,6 +166,8 @@ void GameEngine::update()
 			freezeActivated = false;
 		}
 	}
+
+	enemy.handlePause(plr, m_difficulty, speedActivated, isPaused, m_canDamage);
 }
 
 void GameEngine::render()
@@ -223,6 +227,9 @@ void GameEngine::render()
 		plr.saveHighScore(m_difficulty);
 		enemy.setSwitch(false);
 		plr.setScore(0);
+		plr.setVelocity(plr.getUnspeededVelocity(m_difficulty));
+		m_canDamage = true;
+		isPaused = true;
 		int screenWidth = 800;
 		int screenHeight = 400;
 
