@@ -30,6 +30,7 @@ private:
 	int m_fileHighScoreHard;
 	int m_previousSpeederScore{ 0 };
 	int m_previousOneHundredScore{ 0 };
+	int m_previousFreezerScore{ 0 };
 public:
 	// Set member functions
 	void setPos(Vector2 pos);
@@ -47,6 +48,8 @@ public:
 	void clearPreviousSpeederScore();
 	void setPreviousHundredScore();
 	void clearPreviousHundredScore();
+	void setPreviousFreezerScore();
+	void clearPreviousFreezerScore();
 	void createSaveFolder();
 	void saveHighScore(int difficulty);
 	void speedPlayer();
@@ -87,4 +90,5 @@ public:
 	float getSpeededVelocity(int difficulty);
 	float getUnspeededVelocity(int difficulty);
 	int getPreviousHundredScore();
+	int getPreviousFreezerScore();
 };

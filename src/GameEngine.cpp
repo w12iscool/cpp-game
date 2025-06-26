@@ -45,6 +45,7 @@ void GameEngine::startUp()
    enemies.reserve(MAX_ENEMIES);
    healer.setRandomPos();
    speeder.setRandomPos();
+   freezer.setRandomPos();
    plr.createSaveFolder();
    plr.getFileHighScore();
    plr.getFileHighScoreEasy();
@@ -62,11 +63,15 @@ void GameEngine::startUp()
    }
 }
 
+// Speed timer
 float speedLife = 10.0f;
-
 Timer::Timer speedTimer = { 0 };
-
 bool speedActivated{ false };
+
+// Freeze timer
+float freezeLife = 5.0f;
+Timer::Timer freezeTimer = { 0 };
+bool freezeActivated{ false };
 
 void GameEngine::update()
 {
@@ -126,6 +131,39 @@ void GameEngine::update()
 
 	// Increases damage by 1 each time the plr earns 100 coins
 	enemy.handleScoreHundred(plr);
+
+	// Handle freezer spawning
+	freezer.handleSpawning(plr);
+
+	// Handle freeze timer
+	if (freezer.handleCollisions(plr) && !freezeActivated)
+	{
+		Timer::StartTimer(&freezeTimer, freezeLife);
+
+		enemy.setSwitch(false);
+		for (auto& ene : enemies)
+		{
+			ene.setSwitch(false);
+		}
+
+		freezeActivated = true;
+	}
+
+	if (freezeActivated)
+	{
+		Timer::UpdateTimer(&freezeTimer);
+
+		if (Timer::TimerDone(&freezeTimer))
+		{
+			enemy.setSwitch(true);
+			for (auto& ene : enemies)
+			{
+				ene.setSwitch(true);
+			}
+
+			freezeActivated = false;
+		}
+	}
 }
 
 void GameEngine::render()
@@ -157,6 +195,9 @@ void GameEngine::render()
 		// Draw Speeder
 		DrawCircle(speeder.getPos().x, speeder.getPos().y, speeder.getRadius(), BLUE);
 
+		// Draw Freezer
+		DrawCircle(freezer.getPos().x, freezer.getPos().y, freezer.getRadius(), SKYBLUE);
+
 		// Draw score
 		plr.drawScore();
 
@@ -169,6 +210,11 @@ void GameEngine::render()
 		if (speedActivated)
 		{
 			speeder.drawIfSpeeded();
+		}
+
+		if (freezeActivated)
+		{
+			freezer.drawIfFrozen();
 		}
 	}
 	// Death message

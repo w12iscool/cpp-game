@@ -9,7 +9,7 @@
 #include "Enemy.h"
 #include "Healer.h"
 #include "Speeder.h"
-
+#include "Freezer.h"
 class GameEngine
 {
 private:
@@ -19,6 +19,7 @@ private:
 	std::vector<Enemy> enemies;
 	Healer healer;
 	Speeder speeder;
+	Freezer freezer;
 	bool m_isInMenue{ true };
 	bool m_isInDifficulty{ false };
 	int m_difficulty{ 1 };

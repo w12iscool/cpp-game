@@ -79,6 +79,16 @@ void Player::clearPreviousHundredScore()
 	m_previousOneHundredScore = 0;
 }
 
+void Player::setPreviousFreezerScore()
+{
+	m_previousFreezerScore = m_score;
+}
+
+void Player::clearPreviousFreezerScore()
+{
+	m_previousFreezerScore = 0;
+}
+
 void Player::createSaveFolder()
 {
 	std::string folder = "./saves/";
@@ -498,5 +508,10 @@ float Player::getUnspeededVelocity(int difficulty)
 int Player::getPreviousHundredScore()
 {
 	return m_previousOneHundredScore;
+}
+
+int Player::getPreviousFreezerScore()
+{
+	return m_previousFreezerScore;
 }
 
