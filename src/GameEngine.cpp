@@ -36,31 +36,31 @@ namespace Timer
 	}
 }
 
-void GameEngine::startUp()  
-{  
+void GameEngine::startUp()
+{
 	m_difficulty = 2;
-   plr.setPos(Vector2{200, 200});  
-   enemy.setRandomPos();  
-   coin.setRandomPos();
-   enemies.reserve(MAX_ENEMIES);
-   healer.setRandomPos();
-   speeder.setRandomPos();
-   freezer.setRandomPos();
-   plr.createSaveFolder();
-   plr.getFileHighScore();
-   plr.getFileHighScoreEasy();
-   plr.getFileHighScoreHard();
-   plr.readFromSaveFile();
-   plr.readFromSaveFile1();
-   plr.readFromSaveFile3();
+	plr.setPos(Vector2{ 200, 200 });
+	enemy.setRandomPos();
+	coin.setRandomPos();
+	enemies.reserve(MAX_ENEMIES);
+	healer.setRandomPos();
+	speeder.setRandomPos();
+	freezer.setRandomPos();
+	plr.createSaveFolder();
+	plr.getFileHighScore();
+	plr.getFileHighScoreEasy();
+	plr.getFileHighScoreHard();
+	plr.readFromSaveFile();
+	plr.readFromSaveFile1();
+	plr.readFromSaveFile3();
 
-   // unfortunately hard-coded to set the default difficulty to normal upon startup cuz im lazy :(
-   plr.setVelocity(NORMAL_PLAYER_SPEED);
-   enemy.setVelocity(NORMAL_ENEMY_SPEED);
-   for (auto& ene : enemies)
-   {
-	   ene.setVelocity(NORMAL_ENEMY_SPEED);
-   }
+	// unfortunately hard-coded to set the default difficulty to normal upon startup cuz im lazy :(
+	plr.setVelocity(NORMAL_PLAYER_SPEED);
+	enemy.setVelocity(NORMAL_ENEMY_SPEED);
+	for (auto& ene : enemies)
+	{
+		ene.setVelocity(NORMAL_ENEMY_SPEED);
+	}
 }
 
 // Speed timer
@@ -166,8 +166,12 @@ void GameEngine::update()
 			freezeActivated = false;
 		}
 	}
-
-	enemy.handlePause(plr, m_difficulty, speedActivated, isPaused, m_canDamage);
+	
+	if (plr.getDead() == false)
+	{
+		enemy.handlePause(plr, m_difficulty, speedActivated, isPaused, m_canDamage, m_isPausedRenderBool);
+	}
+	
 
 	if (enemy.getSwitch())
 	{
@@ -187,7 +191,7 @@ void GameEngine::update()
 
 void GameEngine::render()
 {
-	if (plr.getDead() == false && m_isInMenue == false && m_isInDifficulty == false)
+	if (plr.getDead() == false && m_isInMenue == false && m_isInDifficulty == false && m_isPausedRenderBool == true)
 	{
 		// Background
 		ClearBackground(BLACK);
@@ -237,7 +241,7 @@ void GameEngine::render()
 		}
 	}
 	// Death message
-	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false)
+	if (plr.getDead() && m_isInMenue == false && m_isInDifficulty == false && isPaused == true)
 	{
 		plr.saveHighScore(m_difficulty);
 		enemy.setSwitch(false);
@@ -313,9 +317,9 @@ void GameEngine::render()
 
 		}
 	}
-
-	if (m_isInMenue && m_isInDifficulty == false)
+	if (m_isInMenue && m_isInDifficulty == false && m_isPausedRenderBool == true)
 	{
+		plr.setDead(true);
 		enemy.setSwitch(false);
 		for (auto& ene : enemies)
 		{
@@ -362,7 +366,7 @@ void GameEngine::render()
 	if (m_isInDifficulty)
 	{
 		ClearBackground(RAYWHITE);
-		
+
 		int screenWidth = 800;
 		int screenHeight = 400;
 		const char* text = "Welcome to the difficulty select menu!";
@@ -451,6 +455,18 @@ void GameEngine::render()
 			m_isInDifficulty = false;
 			m_isInMenue = true;
 		}
+	}
+	if (!m_isPausedRenderBool)
+	{
+		ClearBackground(RAYWHITE);
+		int screenWidth = 800;
+		const char* text = "Paused";
+		int fontSize = 60;
+		int textWidth = MeasureText(text, fontSize);
+		int posX = (screenWidth - textWidth) / 2;
+		int posY = (SCREEN_HEIGHT - fontSize) / 2;
+		DrawText(text, posX, posY, fontSize, BLACK);
+		DrawText("Press 'P' to unpause", (screenWidth - MeasureText("Press 'P' to unpause", 40)) / 2, posY + 60, 40, BLACK);
 	}
 }
 

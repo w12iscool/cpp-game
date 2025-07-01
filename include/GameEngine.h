@@ -22,6 +22,7 @@ private:
 	Freezer freezer;
 	bool m_isInMenue{ true };
 	bool m_isInDifficulty{ false };
+	bool m_isPausedRenderBool{ false };
 	int m_difficulty{ 1 };
 	bool m_canDamage{ true };
 public:

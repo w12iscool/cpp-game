@@ -31,7 +31,7 @@ public:
 	void addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty);
 	void handleScoreHundred(Player& plr);
 	void drawDmgMultiplier();
-	void handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage);
+	void handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage, bool& renderBool);
 	
 	// Get member functions
 	Vector2 getPos() const;
