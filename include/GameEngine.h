@@ -23,6 +23,7 @@ private:
 	bool m_isInMenue{ true };
 	bool m_isInDifficulty{ false };
 	int m_difficulty{ 1 };
+	bool m_canDamage{ true };
 public:
 	void startUp();
 	void update();

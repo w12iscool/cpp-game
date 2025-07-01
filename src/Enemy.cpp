@@ -50,9 +50,9 @@ void Enemy::movementHandler(Player& plr)
 		m_pos.y = SCREEN_HEIGHT;
 }
 
-void Enemy::damagePlayer(Player& plr)
+void Enemy::damagePlayer(Player& plr, bool canDamage)
 {
-	if (CheckCollisionCircles(plr.getPos(), plr.getRadius(), m_pos, m_radius))
+	if (CheckCollisionCircles(plr.getPos(), plr.getRadius(), m_pos, m_radius) && canDamage)
 	{
 		plr.takeDamage(m_dmg);
 	}
@@ -121,6 +121,37 @@ void Enemy::drawDmgMultiplier()
 	}
 }
 
+void Enemy::handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage)
+{
+	if (IsKeyReleased(KEY_P))
+	{
+		if (isPaused == true)
+		{
+			m_switch = false;
+			plr.setVelocity(0);
+			std::cout << "paused";
+			canDamage = false;
+			isPaused = !isPaused;
+		}
+		else
+		{
+
+			m_switch = true;
+			if (hasSpeed == true)
+			{
+				plr.setVelocity(plr.getSpeededVelocity(difficulty));
+			}
+			if (hasSpeed == false)
+			{
+				plr.setVelocity(plr.getUnspeededVelocity(difficulty));
+			}
+			canDamage = true;
+			isPaused = !isPaused;
+			std::cout << "unpaused";
+		}
+	}
+}
+
 
 
 Vector2 Enemy::getPos() const
@@ -141,4 +172,9 @@ float Enemy::getVelocity() const
 Color Enemy::getColor() const
 {
 	return m_color;
+}
+
+bool Enemy::getSwitch()
+{
+	return m_switch;
 }

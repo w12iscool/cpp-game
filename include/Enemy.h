@@ -27,14 +27,16 @@ public:
 
 	// Movement, thinking, etc.
 	void movementHandler(Player& plr);
-	void damagePlayer(Player& plr);
+	void damagePlayer(Player& plr, bool canDamage);
 	void addEnemy(std::vector<Enemy>& enemies, Player& plr, int difficulty);
 	void handleScoreHundred(Player& plr);
 	void drawDmgMultiplier();
+	void handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage);
 	
 	// Get member functions
 	Vector2 getPos() const;
 	float getRadius() const;
 	float getVelocity() const;
 	Color getColor() const;
+	bool getSwitch();
 };
