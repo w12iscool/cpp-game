@@ -167,7 +167,22 @@ void GameEngine::update()
 		}
 	}
 
-	enemy.handlePause(plr, m_difficulty, speedActivated, isPaused, m_canDamage);
+	if (!enemy.handlePause(plr, m_difficulty, speedActivated, isPaused, m_canDamage))
+	{
+		for (auto& ene : enemies)
+		{
+			ene.setSwitch(false);
+			std::cout << "switch false";
+		}
+	}
+	else
+	{
+		for (auto& ene : enemies)
+		{
+			ene.setSwitch(true);
+			std::cout << "switch true";
+		}
+	}
 }
 
 void GameEngine::render()

@@ -121,7 +121,7 @@ void Enemy::drawDmgMultiplier()
 	}
 }
 
-void Enemy::handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage)
+bool Enemy::handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaused, bool& canDamage)
 {
 	if (IsKeyReleased(KEY_P))
 	{
@@ -150,6 +150,7 @@ void Enemy::handlePause(Player& plr, int difficulty, bool hasSpeed, bool& isPaus
 			std::cout << "unpaused";
 		}
 	}
+	return isPaused;
 }
 
 
